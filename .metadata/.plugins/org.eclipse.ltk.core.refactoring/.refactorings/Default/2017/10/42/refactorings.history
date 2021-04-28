@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Default/goes_position.pro&apos; to &apos;plot_orbit.pro&apos;" description="Rename resource &apos;goes_position.pro&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="goes_position.pro" name="plot_orbit.pro" stamp="1508510930414" updateReferences="true"/>
+</session>

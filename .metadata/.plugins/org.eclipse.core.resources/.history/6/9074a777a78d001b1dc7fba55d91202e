@@ -1,0 +1,41 @@
+la=[]
+lo=[]
+on2=[]
+strdate=[]
+
+filelist = file_search('/Users/wzihan/data/gold/on2/*.nc')
+nFiles = n_elements(filelist)
+
+for iFile = 0, nFiles-1 do begin
+  
+  READ_GOLD_NCDF, filelist[ifile], test_data
+  print,filelist[ifile]
+  nscan=size(test_data.dqi,dimension=1)
+  nscan=nscan[0]
+  st=test_data.scan_start_time
+  nsize=size(test_data.latitude,dimension=1)
+  lat=test_data.latitude
+  lon=test_data.longitude
+  ratio=test_data.on2
+  time=test_data.scan_start_time
+  dqi=test_data.on2_dqi
+
+  for s=0,nscan-1 do begin
+    for i=0, nsize[0]-1 do begin
+      for j=0, nsize[1]-1 do begin
+        if ~FINITE(lat[i,j], /NAN) and ~FINITE(lon[i,j], /NAN) and ~FINITE(ratio[i,j,s], /NAN) then begin
+          if dqi[i,j,s] eq 0 then begin  
+            la=[la,lat[i,j]]
+            lo=[lo,lon[i,j]]
+            on2=[on2,ratio[i,j,s]]
+            strdate=[strdate,time[s]]
+          endif  
+        endif
+      endfor
+    endfor
+  endfor
+  
+endfor
+
+save, la, lo, on2, strdate, filename='on2_all.sav'
+end
