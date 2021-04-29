@@ -1,6 +1,0 @@
-restore,filename='on2_all.sav'
-ave_on2=MAKE_ARRAY(360, 180, /float, VALUE = 0.0)
-cnt=MAKE_ARRAY(360, 180, /interger, VALUE = 0)
-np=n_elements(on2)
-for i=0, np-1 do begin
-  

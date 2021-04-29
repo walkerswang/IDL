@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Move 1 resources to &apos;Default&apos;" description="Move 1 resources to &apos;Default&apos;" destination="/Default" element1="spedas_2_00/idl/projects/omni/omni.pro" flags="7" id="org.eclipse.ltk.core.refactoring.move.resources" resources="1" stamp="1509732497636" updateReferences="true"/>&#x0A;<refactoring comment="Move 1 resources to &apos;Default&apos;" description="Move 1 resources to &apos;Default&apos;" destination="/Default" element1="spedas_2_00/idl/spedas_gui/cal_pressure_hope.pro" flags="7" id="org.eclipse.ltk.core.refactoring.move.resources" resources="1" stamp="1509732525166" updateReferences="true"/>
-</session>

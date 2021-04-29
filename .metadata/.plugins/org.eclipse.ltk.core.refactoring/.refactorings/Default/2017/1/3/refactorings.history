@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;Default/t_model.pro&apos; to &apos;3d_magmodel.pro&apos;" description="Rename resource &apos;t_model.pro&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="t_model.pro" name="3d_magmodel.pro" stamp="1484688852094" updateReferences="true"/>
-</session>
