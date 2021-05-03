@@ -1,7 +1,7 @@
-
-IonosphereFiles = findfile('/Users/wzihan/IE_201705/it*')
+root=ask('Root folder: ', root)
+IonosphereFiles = findfile(root)
 nFilesIono   = n_elements(IonosphereFiles)
-
+output=ask('Output folder: ', output)
 
 for iFile=0,nFilesIono-1 do begin
 
@@ -65,12 +65,12 @@ endfor
 
 Version = 1.0
 
-FileOut = 'amie_'+ymd+'n.swmf'
+FileOut = output+'amie_'+ymd+'n.swmf'
 amie_write_binary, fileout, Vars, lats, mlts, t, AmieData, $
                    imf = imf, ae = ae, dst = dst, hpi = hp, cpcp = cpcp, $
                    Version = Version
 
-FileOut = 'amie_'+ymd+'s.swmf'
+FileOut = output+'amie_'+ymd+'s.swmf'
 amie_write_binary, fileout, Vars, latsS, mlts, t, AmieDataS, $
                    imf = imf, ae = ae, dst = dst, hpi = hp, cpcp = cpcpS, $
                    Version = Version
