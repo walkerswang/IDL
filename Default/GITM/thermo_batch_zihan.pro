@@ -22,7 +22,7 @@ for iFile = 0, nFiles-1 do begin
 
   read_thermosphere_file, filename, nvars, nalts, nlats, nlons, $
     vars, data, rb, cb, bl_cnt, iTime, Version
-    
+
   utime = itime(3)*3600.0 + $
   itime(4)*60.0 + $
   itime(5)
@@ -240,10 +240,6 @@ for iFile = 0, nFiles-1 do begin
         vector_factor = fix(ask('velocity factor','-1'))
         
         sel_vec=fix(ask('At a different altitude?', '-1'))
-        if sel_vec gt 0 then begin
-          data[37:39,*,*,selset]=data[37:39,*,*,sel_vec]
-          data[16:18,*,*,selset]=data[16:18,*,*,sel_vec]
-        endif
       endif else vector_factor = 0
 
       ; cursor position variables, which don't matter at this point
@@ -322,6 +318,11 @@ for iFile = 0, nFiles-1 do begin
     smaxi_final = smaxi
 
     if (float(smini) lt 0.0) then colortable = 'mid'
+    
+    if sel_vec gt 0 then begin
+      data[37:39,*,*,selset]=data[37:39,*,*,sel_vec]
+      data[16:18,*,*,selset]=data[16:18,*,*,sel_vec]
+    endif
     
     thermo_plot_new,cursor_x,cursor_y,strx,stry,step,nvars,sel,nfiles,$
       cnt1,cnt2,cnt3,yes,no,yeslog,      $
