@@ -1,15 +1,9 @@
-if (n_elements(filelist) eq 0) then begin
-  filelist = findfile("-t /*.save")
-  if (strlen(filelist(0)) eq 0) then filelist = findfile("-t *.bin")
-endif
-
 makect, 'all'
 
-foldername='/Users/wzihan/Simulations/data/'
-figname='/Users/wzihan/Simulations/plot_new/nw_zonal/nw_zonal_200km.ps'
-figname2='/Users/wzihan/Simulations/plot_new/efield/efield_110km_north.ps'
-wildcard = foldername+'3DALL_t17090*.bin'
-filelist=findfile(wildcard)
+wc=ask('Root folder:',wc)
+root=ask('Figure root:',root)
+figname=ask('Figure name:',figname)
+filelist=findfile(wc)
 
 nfiles = n_elements(filelist)
 
@@ -35,83 +29,68 @@ for iFile = 0, nFiles-1 do begin
   utime = utime(0)
   p0lon = utime/3600.0 * 360.0 / 24.0
 
-for ii=0,0 do begin
-  for sel=16,16 do begin
-    if ii eq 0 then begin
-      psfile =figname
-    endif else begin
-      psfile =figname2
-    endelse
-
+  psfile=root+figname
   p = strpos(psfile,'.ps')
   psfile = strmid(psfile,0,p)
 
   tp=strpos(filename,'_t')
-  psfile = psfile+'_'+strmid(filename,tp+2,13)+'_'+strtrim(ii,2)+'.ps'
+  psfile = psfile+'_'+strmid(filename,tp+2,13)+'.ps'
 
   alt = reform(data(2,*,*,*)) / 1000.0
   lat = reform(data(1,*,*,*)) / !dtor
   lon = reform(data(0,*,*,*)) / !dtor
   
-  ;if (iFile eq 0) then begin
+  if (iFile eq 0) then begin
 
-    ;for i=0,nvars-1 do print, tostr(i)+'. '+vars(i)
-    ;if (n_elements(sel) eq 0) then sel = '9' else sel = tostr(sel)
+    for i=0,nvars-1 do print, tostr(i)+'. '+vars(i)
     
-    ;sel = 17
-    ;fix(ask('which var to plot',sel)) 34 NE 28 potential
-
-    ;if (n_elements(plotlog) eq 0) then plotlog='n' $
-    ;else if (plotlog) then plotlog='y' else plotlog='n'
-    ;plotlog = ask('whether you want log or not (y/n)',plotlog)
-    ;if (strpos(plotlog,'y') eq 0) then plotlog = 1 else plotlog = 0
-    plotlog = 0
-
-    ;if (n_elements(IsLinePlot) eq 0) then IsLinePlot='c' $
-    ;else if (IsLinePlot) then IsLinePlot='l' else IsLinePlot='c'
-    ;IsLinePlot = mklower(ask('whether you would like a line plot (l) or contour plot (c)',IsLinePlot))
-
-    ;if (strpos(IsLinePlot,'c') eq -1) then IsLinePlot = 1 $
-    ;else IsLinePlot = 0
+    if (n_elements(sel) eq 0) then sel = '9' else sel = tostr(sel)
+    sel = fix(ask('which var to plot', sel))
     
-    IsLinePlot = 0
+    if (n_elements(plotlog) eq 0) then plotlog='n' $
+    else if (plotlog) then plotlog='y' else plotlog='n' 
+    plotlog = ask('whether you want log or not (y/n)', plotlog)
+    if (strpos(plotlog,'y') eq 0) then plotlog = 1 else plotlog = 0
 
+    if (n_elements(IsLinePlot) eq 0) then IsLinePlot='c' $
+    else if (IsLinePlot) then IsLinePlot='l' else IsLinePlot='c'
+    IsLinePlot = mklower(ask('whether you would like a line plot (l) or contour plot (c)',IsLinePlot))
+    if (strpos(IsLinePlot,'c') eq -1) then IsLinePlot = 1 $
+    else IsLinePlot = 0
+    
     if (IsLinePlot) then begin
 
-      ;print, 'What 1D would you like to plot?'
-      ;print, '1. Variable vs Altitude'
-      ;print, '2. Variable vs Longitude'
-      ;print, '3. Variable vs Latitude'
-      ;if (n_elements(iLine) eq 0) then iLine='1' else iLine=tostr(iLine)
-      ;iLine = fix(ask('type of plot to make',iLine))
-      
-      iLine=1
+      print, 'What 1D would you like to plot?'
+      print, '1. Variable vs Altitude'
+      print, '2. Variable vs Longitude'
+      print, '3. Variable vs Latitude'
+      if (n_elements(iLine) eq 0) then iLine='1' else iLine=tostr(iLine)
+      iLine = fix(ask('type of plot to make',iLine))
       
       if (iLine eq 1) then begin
         if (n_elements(IsGlobalAverage) eq 0) then IsGlobalAverage='0'
-        IsGlobalAverage = 0 ;fix(ask('whether you want a global average (0-no,1-yes)','0'))
+        IsGlobalAverage=fix(ask('whether you want a global average (0-no,1-yes)','0'))
       endif
 
       if (not IsGlobalAverage) then begin
 
         if (iLine ne 2) then begin
-          ;for i=0,nlons-1 do print, tostr(i)+'. '+string(lon(i,2,2))
+          for i=0,nlons-1 do print, tostr(i)+'. '+string(lon(i,2,2))
           if (n_elements(iLon) eq 0) then iLon='0' else iLon=tostr(iLon)
-          iLon =136 ;fix(ask('which longitude to plot',iLon))
+          iLon =fix(ask('which longitude to plot',iLon))
         endif
 
         if (iLine ne 3) then begin
-          ;for i=0,nlats-1 do print, tostr(i)+'. '+string(lat(2,i,2))
+          for i=0,nlats-1 do print, tostr(i)+'. '+string(lat(2,i,2))
           if (n_elements(iLat) eq 0) then iLat='0' else iLat=tostr(iLat)
-          iLat = 140;fix(ask('which latitude to plot',iLat))
+          iLat = fix(ask('which latitude to plot',iLat))
         endif
 
         if (iLine ne 1) then begin
-          ;for i=0,nalts-1 do print, tostr(i)+'. '+string(alt(2,2,i))
+          for i=0,nalts-1 do print, tostr(i)+'. '+string(alt(2,2,i))
           if (n_elements(iAlt) eq 0) then iAlt='0' else iAlt=tostr(iAlt)
           iAlt = fix(ask('which altitude to plot',iLat))
         endif
-        iAlt=7
 
         title = 'Location : '
 
@@ -179,20 +158,16 @@ for ii=0,0 do begin
 
     endif else begin
 
-      ;if (n_elements(iSecondVar) eq 0) then iSecondVar = '-1' $
-      ;else iSecondVar = tostr(iSecondVar)
-      ;iSecondVar = $
-      ;  fix(ask('second var to plot as line contour (-1 for none)',$
-      ;  iSecondVar))
-        
-      iSecondVar = -1
+      if (n_elements(iSecondVar) eq 0) then iSecondVar = '-1' $
+      else iSecondVar = tostr(iSecondVar)
+      iSecondVar = $
+        fix(ask('second var to plot as line contour (-1 for none)',$
+        iSecondVar))
 
-      ;print, '1. Constant Altitude Plot'
-      ;print, '2. Constant Longitude Plot (or Zonal Average)'
-      ;print, '3. Constant Latitude Plot'
-      ;slice = fix(ask('type of plot to make','1'))
-      
-      slice=1
+      print, '1. Constant Altitude Plot'
+      print, '2. Constant Longitude Plot (or Zonal Average)'
+      print, '3. Constant Latitude Plot'
+      slice = fix(ask('type of plot to make','1'))
       
       cnt1 = 0
       cnt2 = 0
@@ -208,18 +183,14 @@ for ii=0,0 do begin
       if (slice eq 3) then cnt2 = 1
 
       if (slice eq 1) then begin
-        ;for i=0,nalts-1 do print, tostr(i)+'. '+string(alt(2,2,i))
-        selset =24
+        for i=0,nalts-1 do print, tostr(i)+'. '+string(alt(2,2,i))
+        selset = fix(ask('which altitude?', '0'))
          
-        ;polar = fix(ask('polar (1) or non-polar (0)','0'))
-        polar=0
-        npolar=1
+        polar = fix(ask('polar (1) or non-polar (0)','0'))
         
         if (polar) then begin
-          ;npolar = fix(ask('North (1) or South (0)','1'))
-          npolar=1
-          ;MinLat = abs(float(ask('minimum latitude to plot','50.0')))
-          MinLat=10.0
+          npolar = fix(ask('North (1) or South (0)','1'))
+          MinLat = abs(float(ask('minimum latitude to plot','50.0')))
         endif
 
       endif
@@ -241,38 +212,39 @@ for ii=0,0 do begin
         selset = fix(ask('which latitude to plot','0'))
       endif
 
-      ;smini = ask('minimum (0.0 for automatic)','0.0')
-      smini=-150
-      ;smaxi  ask('maximum (0.0 for automatic)','0.0')
-      smaxi=150
+      smini = ask('minimum (0.0 for automatic)','0.0')
+      smaxi = ask('maximum (0.0 for automatic)','0.0')
 
-      ;if (not IsZonalAverage) then begin
-        ;if (n_elements(plotVector) eq 0) then plotvector='y' $
-        ;else if (plotvector) then plotvector='y' else plotvector='n'
-        ;plotvector=ask('whether you want vectors or not (y/n)',plotvector)
-        ;if strpos(plotvector,'y') eq 0 then plotvector=1 $
-        ;else plotvector = 0
-      ;endif else plotvector = 0
-      plotvector=0
+      if (not IsZonalAverage) then begin
+        if (n_elements(plotVector) eq 0) then plotvector='y' $
+        else if (plotvector) then plotvector='y' else plotvector='n'
+        plotvector=ask('whether you want vectors or not (y/n)',plotvector)
+        if strpos(plotvector,'y') eq 0 then plotvector=1 $
+        else plotvector = 0
+      endif else plotvector = 0
 
-      ;if (plotvector) then begin
+      if (plotvector) then begin
 
-        ;PlotNeutrals = fix(ask('plot neutral winds (1) or ions (0)','1'))
-        PlotNeutrals = 1
+        PlotNeutrals = fix(ask('plot neutral winds (1) or ions (0)','1'))
         ; vi_cnt is whether to plot vectors of Vi
         vi_cnt = 1-PlotNeutrals
 
         ; vn_cnt is whether to plot vectors of Vn
         vn_cnt = PlotNeutrals
-
-        ;print,'-1  : automatic selection'
+        
+        print,'-1  : automatic selection'
         factors = [1.0, 5.0, 10.0, 20.0, 25.0, $
           50.0, 75.0, 100.0, 150.0, 200.0,300.0]
         nfacs = n_elements(factors)
-        ;for i=0,nfacs-1 do print, tostr(i+1)+'. '+string(factors(i)*10.0)
-        ;vector_factor = fix(ask('velocity factor','-1'))
-        vector_factor=3
-        ;endif else vector_factor = 0
+        for i=0,nfacs-1 do print, tostr(i+1)+'. '+string(factors(i)*10.0)
+        vector_factor = fix(ask('velocity factor','-1'))
+        
+        sel_vec=fix(ask('At a different altitude?', '-1'))
+        if sel_vec gt 0 then begin
+          data[37:39,*,*,selset]=data[37:39,*,*,sel_vec]
+          data[16:18,*,*,selset]=data[16:18,*,*,sel_vec]
+        endif
+      endif else vector_factor = 0
 
       ; cursor position variables, which don't matter at this point
       cursor_x = 0.0
@@ -313,7 +285,7 @@ for ii=0,0 do begin
 
     endelse
 
-  ;endif
+  endif
 
   ;if (nFiles gt 1) then begin
   ;  p = strpos(psfile,'.ps')
@@ -349,8 +321,7 @@ for ii=0,0 do begin
     smini_final = smini
     smaxi_final = smaxi
 
-    colortable = 'mid'
-    ;if (float(smini) lt 0.0) then colortable = 'mid'
+    if (float(smini) lt 0.0) then colortable = 'mid'
     
     thermo_plot_new,cursor_x,cursor_y,strx,stry,step,nvars,sel,nfiles,$
       cnt1,cnt2,cnt3,yes,no,yeslog,      $
@@ -364,8 +335,5 @@ for ii=0,0 do begin
       plotsquare = plotsquare, p0lon=p0lon
 
   endelse
-
-endfor
-endfor
 endfor
 end
