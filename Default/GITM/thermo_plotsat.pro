@@ -36,25 +36,18 @@ end
 
 GetNewData = 1
 fpi = 0
-ccmc = 1
+ccmc = 0
 
 if (n_elements(start) eq 0) then start='????'
 
 old_start = start
 
+root=ask('Root folder', root)
 start = ask('starting characters of the satellite',start)
-
-filelist_new = findfile(start+"*.*ALL")
+plot_name=ask('Plot name', plot_name)
+filelist_new = findfile(root+start+'*bin')
+filelist_new=filelist_new[1920:3839]
 nfiles_new = n_elements(filelist_new)
-if (nfiles_new eq 1) then begin
-    filelist_new = findfile(start+"*.dat")
-    nfiles_new = n_elements(filelist_new)
-endif
-
-if (nfiles_new eq 1) then begin
-    filelist_new = findfile(start+"*.bin")
-    nfiles_new = n_elements(filelist_new)
-endif
 
 if n_elements(nfiles) gt 0 then begin
     if (nfiles_new eq nfiles) then default = 'n' else default='y'
@@ -207,6 +200,7 @@ if (nSats eq 1) then begin
 ;;     endif
 
     iVar = fix(ask('variable to plot',tostr(iVar)))
+   
 
     IsElectronDensity = 0
     if (strpos(vars(iVar),'e-') gt -1) then IsElectronDensity = 1
@@ -260,7 +254,7 @@ if (nSats eq 1) then begin
 
     endif
 
-    setdevice, 'test.ps', 'p', 5, 0.95
+    setdevice, plot_name, 'p', 5, 0.95
 
 ;    makect, 'mid'
     makect, 'bristow'
@@ -353,6 +347,10 @@ if (nSats eq 1) then begin
                  nmf2 = fltarr(nPts)
                  iAlt1 = 10
                  iAlt2 = 20
+                 
+                 display, Alts[0,*]
+                 iAlt1=fix(ask('Which altitude to plot (-1 means hmf2)'))
+                 
                  help, alts, v
                  alts_small = reform(alts(0,*))
                  for i=0,nPts-1 do begin
@@ -370,8 +368,8 @@ if (nSats eq 1) then begin
                  endfor
 
                  oplot, time2d(*,0), hmf2
-                 oplot, time2d(*,0), hmf2l, linestyle = 1
-                 oplot, time2d(*,0), hmf2u, linestyle = 1
+                 ;oplot, time2d(*,0), hmf2l, linestyle = 1
+                 ;oplot, time2d(*,0), hmf2u, linestyle = 1
 
               endelse
 
@@ -450,9 +448,9 @@ if (nSats eq 1) then begin
         endelse
 
         if (iVar ne nVars) then begin
-
-           if (IsElectronDensity) then v1 = hmf2 else v1 = reform(value(*,iAlt1))
-           if (IsElectronDensity) then v2 = hmf2 else v2 = reform(value(*,iAlt1))
+           
+           if (IsElectronDensity) and (iAlt1 lt 0) then v1 = hmf2 else v1 = reform(value(*,iAlt1))
+           if (IsElectronDensity) and (iAlt1 lt 0) then v2 = hmf2 else v2 = reform(value(*,iAlt1))
 ;           value2 = value
            if (iVar eq nVars+5) then v2 = reform(o_scale_est(*,iAlt1))
            if (iVar eq nVars+6) then v2 = reform(o2_scale_est(*,iAlt1))
@@ -526,24 +524,31 @@ if (nSats eq 1) then begin
                   thick = 3, yrange = [mini,maxi], ystyle = 1, $
                   charsize = 1.2, $
                   ytickname = ['',' ','',' ','',' ','',' ','',' ','',' ']
+                
+                if (IsElectronDensity) and (iAlt1 gt 0) then begin
+                  xyouts, etr+(etr-btr)/200.0, (mini+maxi)/2, 'Orbit Alt', $
+                    orient=270,align=0.5,charsize = 1.2
+                endif
 
             endelse
 
-            labelvalue, btr, etr, mini, maxi, v, new_title, sAlt1
+            ;labelvalue, btr, etr, mini, maxi, v, new_title, sAlt2
     
             if (iVar ge nVars+5) then $ 
               oplot, time-stime, value2(*,ialt1), linestyle = 1
 
-            if (IsElectronDensity) then begin
-               oplot, time-stime, hmf2l, linestyle = 1
-               oplot, time-stime, hmf2u, linestyle = 1
-            endif
+            ;if (IsElectronDensity) then begin
+            ;   oplot, time-stime, hmf2l, linestyle = 1
+            ;   oplot, time-stime, hmf2u, linestyle = 1
+            ;endif
 
             get_position, ppp, space, sizes, 2, pos1, /rect
             pos = [pos1(0)+0.05,pos1(1), pos1(2)-0.07,pos1(3)]
 
             if (IsElectronDensity) then v1 = nmf2 else v1 = reform(value(*,iAlt2))
             if (IsElectronDensity) then v2 = nmf2 else v2 = reform(value(*,iAlt2))
+            if (ialt1 gt 0) then v1=localtime
+            if (ialt1 gt 0) then v2=localtime
             if (iVar eq nVars+5) then v2 = reform(o_scale_est(*,iAlt2))
             if (iVar eq nVars+6) then v2 = reform(o2_scale_est(*,iAlt2))
 
@@ -617,14 +622,19 @@ if (nSats eq 1) then begin
 
             endelse
 
-            labelvalue, btr, etr, mini, maxi, v, new_title, sAlt2
-
+            ;labelvalue, btr, etr, mini, maxi, v, new_title, sAlt1
+            
+            if (IsElectronDensity) and (iAlt1 gt 0) then begin
+              xyouts, etr+(etr-btr)/200.0, (mini+maxi)/2, 'Local Time', $
+                orient=270,align=0.5,charsize = 1.2
+            endif
+            
             if (iVar ge nVars+5) then $ 
               oplot, time-stime, value2(*,ialt2), linestyle = 1
 
-            if (IsElectronDensity) then begin
-               oplot, time-stime, nmf2*0.9/ (10.0^fac), linestyle = 1
-            endif
+            ;if (IsElectronDensity) then begin
+            ;   oplot, time-stime, nmf2*0.9/ (10.0^fac), linestyle = 1
+            ;endif
 
         endif else begin
 
@@ -736,7 +746,7 @@ endif else begin
         endif else title = vars(ivar)
     endif else title = vars(ivar)
 
-    setdevice, 'test.ps', 'p', 5, 0.95
+    setdevice, plot_name, 'p', 5, 0.95
 
     makect, 'all'
 
