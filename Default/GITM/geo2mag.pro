@@ -44,9 +44,9 @@
 FUNCTION geo2mag,incoord
 
         ; SOME 'constants'...
-        Dlong=288.59D   ; longitude (in degrees) of Earth's magnetic south pole
-                        ;(which is near the geographic north pole!) (1995)
-        Dlat=79.30D     ; latitude (in degrees) of same (1995)
+        Dlong=287.37D   ; longitude (in degrees) of Earth's magnetic south pole
+                        ;(which is near the geographic north pole!) (2015)
+        Dlat=80.31D     ; latitude (in degrees) of same (2015) Laundal and Richmond 2016
         R = 1D          ; distance from planet center (value unimportant -- 
                  ;just need a length for conversion to rectangular coordinates)
 
