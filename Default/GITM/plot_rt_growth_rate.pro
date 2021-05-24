@@ -1,22 +1,33 @@
+
+folder=ask('SAV file location:',folder)
 restore,folder+'gamma.sav'
+
+year=ask('year:')
+month=ask('month:')
+sday=ask('start day:')
+shour=ask('start hour:')
+eday=ask('end day:')
+ehour=ask('end hour:')
+
+nfiles=n_elements(EBDRIFT[*,0,0])
 
 makect,'bwr'
 for fixlt=0,23 do begin
 
   ;;;;;;;;plot gamma;;;;;;;;;
-  setdevice, folder+'plot_new/rt/gamma_'+strtrim(fixlt,1)+'.ps'
+  setdevice, folder+'gamma_'+strtrim(fixlt,1)+'.ps'
 
   device,decomposed=0
 
   dummy = LABEL_DATE(DATE_FORMAT=['%H:%I'])
 
-  time = TIMEGEN(START=JULDAY(9,7,2017,18,0,0), FINAL=JULDAY(9,9,2017,0,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
     xticklen=-0.03,yticklen=-0.01,xticks=5
 
-  time = TIMEGEN(START=JULDAY(9,7,2017,18,0,0), FINAL=JULDAY(9,9,2017,0,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   FOR k=0, nfiles-1 DO BEGIN;  UT
     x1=time[k]
@@ -61,19 +72,19 @@ for fixlt=0,23 do begin
   closedevice
 
   ;;;;;;;;plot ebdrift;;;;;;;;;
-  setdevice, folder+'plot_new/rt/ebdrift_'+strtrim(fixlt,1)+'.ps'
+  setdevice, folder+'ebdrift_'+strtrim(fixlt,1)+'.ps'
 
   device,decomposed=0
 
   dummy = LABEL_DATE(DATE_FORMAT=['%H:%I'])
 
-  time = TIMEGEN(START=JULDAY(9,7,2017,18,0,0), FINAL=JULDAY(9,9,2017,0,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
     xticklen=-0.03,yticklen=-0.01,xticks=5
 
-  time = TIMEGEN(START=JULDAY(9,7,2017,18,0,0), FINAL=JULDAY(9,9,2017,0,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   FOR k=0, nfiles-1 DO BEGIN;  UT
     x1=time[k]
@@ -116,19 +127,19 @@ for fixlt=0,23 do begin
 
   ;;;;;;;;plot neutralwind;;;;;;;;;
 
-  setdevice, folder+'plot_new/rt/nw_'+strtrim(fixlt,1)+'.ps'
+  setdevice, folder+'nw_'+strtrim(fixlt,1)+'.ps'
 
   device,decomposed=0
 
   dummy = LABEL_DATE(DATE_FORMAT=['%H:%I'])
 
-  time = TIMEGEN(START=JULDAY(9,7,2017,18,0,0), FINAL=JULDAY(9,9,2017,0,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
     xticklen=-0.03,yticklen=-0.01,xticks=5
 
-  time = TIMEGEN(START=JULDAY(9,7,2017,18,0,0), FINAL=JULDAY(9,9,2017,0,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   FOR k=0, nfiles-1 DO BEGIN;  UT
     x1=time[k]
@@ -171,19 +182,19 @@ for fixlt=0,23 do begin
   closedevice
 
   ;;;;;;;;plot grav;;;;;;;;;
-  setdevice, folder+'plot_new/rt/grav_'+strtrim(fixlt,1)+'.ps'
+  setdevice, folder+'grav_'+strtrim(fixlt,1)+'.ps'
 
   device,decomposed=0
 
   dummy = LABEL_DATE(DATE_FORMAT=['%H:%I'])
 
-  time = TIMEGEN(START=JULDAY(9,7,2017,18,0,0), FINAL=JULDAY(9,9,2017,0,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
     xticklen=-0.03,yticklen=-0.01,xticks=5
 
-  time = TIMEGEN(START=JULDAY(9,7,2017,18,0,0), FINAL=JULDAY(9,9,2017,0,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   FOR k=0, nfiles-1 DO BEGIN;  UT
     x1=time[k]
@@ -228,19 +239,19 @@ for fixlt=0,23 do begin
   closedevice
 
   ;;;;;;plot grad;;;;;;
-  setdevice, folder+'plot_new/rt/grad_'+strtrim(fixlt,1)+'.ps'
+  setdevice, folder+'grad_'+strtrim(fixlt,1)+'.ps'
 
   device,decomposed=0
 
   dummy = LABEL_DATE(DATE_FORMAT=['%H:%I'])
 
-  time = TIMEGEN(START=JULDAY(9,7,2017,18,0,0), FINAL=JULDAY(9,9,2017,0,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
     xticklen=-0.03,yticklen=-0.01,xticks=5
 
-  time = TIMEGEN(START=JULDAY(9,7,2017,18,0,0), FINAL=JULDAY(9,9,2017,0,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   FOR k=0, nfiles-1 DO BEGIN;  UT
     x1=time[k]
@@ -282,19 +293,19 @@ for fixlt=0,23 do begin
   closedevice
 
   ;;;;;;;;plot recom;;;;;;;;;
-  setdevice, folder+'plot_new/rt/recom_'+strtrim(fixlt,1)+'.ps'
+  setdevice, folder+'recom_'+strtrim(fixlt,1)+'.ps'
 
   device,decomposed=0
 
   dummy = LABEL_DATE(DATE_FORMAT=['%H:%I'])
 
-  time = TIMEGEN(START=JULDAY(9,7,2017,18,0,0), FINAL=JULDAY(9,9,2017,0,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
     xticklen=-0.03,yticklen=-0.01,xticks=5
 
-  time = TIMEGEN(START=JULDAY(9,7,2017,18,0,0), FINAL=JULDAY(9,9,2017,0,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   FOR k=0, nfiles-1 DO BEGIN;  UT
     x1=time[k]
