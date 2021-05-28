@@ -8,7 +8,8 @@ pro thermo_plot_new,cursor_x,cursor_y,strx,stry,step,nvars,sel,nfiles, $
                     filename,vars, psfile, mars, colortable, itime, $
                     plotpole = plotpole, iSecondVar=iSecondVar, $
                     IsZonalAverage = IsZonalAverage, $
-                    plotsquare = plotsquare, p0lon=p0lon
+                    plotsquare = plotsquare, p0lon=p0lon, $
+                    satlat=satlat, satlon=satlon, satut=satut
 
 if (n_elements(colortable) eq 0) then colortable = 'mid'
 if (strlen(colortable) eq 0) then colortable = 'mid'
@@ -548,6 +549,41 @@ if ghostcells eq 0 then begin
          oplot, [npx],[npy], psym = 4, symsize = 3, thick = 10
       endif
       
+      if (n_elements(satlat) gt 0) then begin
+         s=size(satlat)
+         if s(0) eq 1 then begin
+          polerange = 90.0-satlat
+          polelon = satlon
+          npx = polerange * $
+               cos((polelon+satut*15.0)*!pi/180.0 - !pi/2.0)
+               npy = polerange * $
+               sin((polelon+satut*15.0)*!pi/180.0 - !pi/2.0)
+          oplot, npx, npy,  thick = 6
+               n=n_elements(npx)
+          oplot, [npx(n/2)],[npy(n/2)], psym = 4, symsize = 2, thick = 10
+          xyouts, [npx(n/2)+4],[npy(n/2)], 's', font=32
+        endif else begin
+          for snum=0,s[2]-1 do begin
+            polerange = 90.0-satlat[*,snum]
+            for pp=0,s[1]-1 do begin
+              if (polerange[pp] gt 90-minlat) and (npolar eq 1) then polerange[pp]=!VALUES.F_NAN
+              if (polerange[pp] gt 90-minlat) and (npolar eq 1) then polerange[pp]=!VALUES.F_NAN
+              if (polerange[pp] lt 90+minlat) and (npolar eq 0) then polerange[pp]=!VALUES.F_NAN
+              if (polerange[pp] lt 90+minlat) and (npolar eq 0) then polerange[pp]=!VALUES.F_NAN
+            endfor
+            polelon = satlon[*,snum]
+            npx = polerange * $
+              cos((polelon+satut*15.0)*!pi/180.0 - !pi/2.0)
+            npy = polerange * $
+              sin((polelon+satut*15.0)*!pi/180.0 - !pi/2.0)
+            oplot, npx, npy,  thick = 6
+            n=n_elements(npx)
+            oplot, [npx(n/2)],[npy(n/2)], psym = 4, symsize = 2, thick = 10
+            xyouts, [npx(n/2)+4],[npy(n/2)], strtrim(string(snum+1),1), font=32
+          endfor
+        endelse
+      endif
+      
    endif
 
    if not (polar) then mr = 1090
@@ -561,6 +597,7 @@ if ghostcells eq 0 then begin
          oplot,x(j,*),y(j,*)
       endfor
    endif
+   
     ;If user set cursor position to plot, then do plot of datald.
     ;Else clean up the cursor text fields on the interface. 
 

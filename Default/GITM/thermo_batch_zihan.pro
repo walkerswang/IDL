@@ -40,6 +40,8 @@ for iFile = 0, nFiles-1 do begin
   lat = reform(data(1,*,*,*)) / !dtor
   lon = reform(data(0,*,*,*)) / !dtor
   
+  sel_vec=-1
+  
   if (iFile eq 0) then begin
 
     for i=0,nvars-1 do print, tostr(i)+'. '+vars(i)
@@ -241,7 +243,14 @@ for iFile = 0, nFiles-1 do begin
         
         sel_vec=fix(ask('At a different altitude?', '-1'))
       endif else vector_factor = 0
-
+      
+      sat=ask('whether to plot orbits ontop', 'n')
+      
+      if sat eq 'y' then begin
+        savfile=ask('sav file:', savfile)
+        restore, savfile
+      endif
+        
       ; cursor position variables, which don't matter at this point
       cursor_x = 0.0
       cursor_y = 0.0
@@ -323,6 +332,24 @@ for iFile = 0, nFiles-1 do begin
       data[37:39,*,*,selset]=data[37:39,*,*,sel_vec]
       data[16:18,*,*,selset]=data[16:18,*,*,sel_vec]
     endif
+
+    if sat eq 'y' then begin
+      tsize=size(satut)
+      tsize=tsize(1)
+      for tt =0, tsize-1 do begin
+        diff=itime eq satut[tt,*]
+        if total(diff) eq 6 then break
+      endfor
+      index=tt
+      satlatsel=satlat[index-50:index+50,*]
+      satlonsel=satlon[index-50:index+50,*]
+      satutsel=satut[index-50:index+50,*]
+      satutsel=satutsel(*,3)+ satutsel(*,4)/60.0 + satutsel(*,5)
+    endif else begin
+      satlat=[]
+      satlon=[]
+      satut=[]
+    endelse
     
     thermo_plot_new,cursor_x,cursor_y,strx,stry,step,nvars,sel,nfiles,$
       cnt1,cnt2,cnt3,yes,no,yeslog,      $
@@ -333,7 +360,7 @@ for iFile = 0, nFiles-1 do begin
       xrange,yrange,selset,smini_final,smaxi_final,    $
       filename,vars, psfile, 0, colortable, itime, $
       iSecondVar=iSecondVar, IsZonalAverage=IsZonalAverage, $
-      plotsquare = plotsquare, p0lon=p0lon
+      plotsquare = plotsquare, p0lon=p0lon, satlat=satlatsel, satlon=satlonsel, satut=satutsel
 
   endelse
 endfor
