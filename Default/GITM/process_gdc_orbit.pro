@@ -1,4 +1,4 @@
-data=read_csv('/Users/wzihan/Dropbox (University of Michigan)/GDC_Ephemeris/gdc_idl.csv', HEADER=Header)
+data=read_csv('/Users/wzihan/Dropbox (University of Michigan)/GDC_Ephemeris/gdc_idl_hires.csv', HEADER=Header)
 
 print, header
 
@@ -30,5 +30,5 @@ satut(*,3)=data.FIELD17
 satut(*,4)=data.FIELD18
 satut(*,5)=data.FIELD19
 
-save, satlat, satlon, satut, filename='/Users/wzihan/Dropbox (University of Michigan)/GDC_Ephemeris/gdc_idl.sav'
+save, satlat, satlon, satut, filename='/Users/wzihan/Dropbox (University of Michigan)/GDC_Ephemeris/gdc_idl_hires.sav'
 end
