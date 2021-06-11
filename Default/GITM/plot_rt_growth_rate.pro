@@ -24,10 +24,8 @@ for fixlt=0,23 do begin
   time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
 
   plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
-    xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
-    xticklen=-0.03,yticklen=-0.01,xticks=5
-
-  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
+    xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$ 
+    xticklen=-0.03,yticklen=-0.01,xticks=11
 
   FOR k=0, nfiles-1 DO BEGIN;  UT
     x1=time[k]
@@ -39,21 +37,21 @@ for fixlt=0,23 do begin
     FOR i=0, 27  DO BEGIN         ; altitude
       yy=[alt[25+i],alt[25+i],alt[25+i+1],alt[25+i+1]]
       cc=gam[k,fixlt,i]/1e-5
-      cl=(cc+400)/800*254
+      cl=(cc+600)/1200*255
       if (cl le 0) THEN cl=0
       if (cl ge 255) THEN cl=255
       POLYFILL,xx,yy,COLOR=cl,/data
     ENDFOR  ;i
   ENDFOR ;k
 
-  post_ct=[.99,0.86,1.05,1]
+  post_ct=[.98,0.86,.995,1]
   ; plot color table
   nlable=5; number of lables
 
   ;tickn=['-30','-15','0','15','30']
   ;tickn=['-5x10!U10','-2.5x10!U10','0','2.5x10!U10','5x10!U10']
   ;tickn=['-50','-25','0','25','50']
-  tickn=['-400','-200','0','200','400']
+  tickn=['-6x10!U-3','-3x10!U-3','0','3x10!U-3','6x10!U-3']
   num_level=256
   nvl=num_level
   ;!p.position=0.
@@ -68,7 +66,7 @@ for fixlt=0,23 do begin
   for n=0,nlable-1 do begin
     xyouts,xx(n),post_ct[1]+yy(n),tickn(n),/normal,color=0,font=0,charsize=0.9
   endfor
-  ;xyouts,1.06,0.85,'Ne (m!U-3)',/normal,font=0,ORIENTATION=90,charsize=1.1
+  xyouts,0.5,1,'Growth Rate s!U-1',/normal,font=0,charsize=1.1
   closedevice
 
   ;;;;;;;;plot ebdrift;;;;;;;;;
@@ -76,15 +74,9 @@ for fixlt=0,23 do begin
 
   device,decomposed=0
 
-  dummy = LABEL_DATE(DATE_FORMAT=['%H:%I'])
-
-  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
-
   plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
-    xticklen=-0.03,yticklen=-0.01,xticks=5
-
-  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
+    xticklen=-0.03,yticklen=-0.01,xticks=11
 
   FOR k=0, nfiles-1 DO BEGIN;  UT
     x1=time[k]
@@ -96,14 +88,13 @@ for fixlt=0,23 do begin
     FOR i=0, 27  DO BEGIN         ; altitude
       yy=[alt[25+i],alt[25+i],alt[25+i+1],alt[25+i+1]]
       cc=ebdrift[k,fixlt,i]
-      cl=(cc+100)/200*254
+      cl=(cc+100)/200*255
       if (cl le 0) THEN cl=0
       if (cl ge 255) THEN cl=255
       POLYFILL,xx,yy,COLOR=cl,/data
     ENDFOR  ;i
   ENDFOR ;k
 
-  post_ct=[.99,0.86,1.05,1]
   ; plot color table
   nlable=5; number of lables
 
@@ -122,7 +113,7 @@ for fixlt=0,23 do begin
   for n=0,nlable-1 do begin
     xyouts,xx(n),post_ct[1]+yy(n),tickn(n),/normal,color=0,font=0,charsize=0.9
   endfor
-  ;xyouts,1.06,0.85,'Ne (m!U-3)',/normal,font=0,ORIENTATION=90,charsize=1.1
+  xyouts,0.5,1,'Drift m/s',/normal,font=0,charsize=1.1
   closedevice
 
   ;;;;;;;;plot neutralwind;;;;;;;;;
@@ -131,15 +122,9 @@ for fixlt=0,23 do begin
 
   device,decomposed=0
 
-  dummy = LABEL_DATE(DATE_FORMAT=['%H:%I'])
-
-  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
-
   plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
-    xticklen=-0.03,yticklen=-0.01,xticks=5
-
-  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
+    xticklen=-0.03,yticklen=-0.01,xticks=11
 
   FOR k=0, nfiles-1 DO BEGIN;  UT
     x1=time[k]
@@ -150,15 +135,14 @@ for fixlt=0,23 do begin
 
     FOR i=0, 27  DO BEGIN         ; altitude
       yy=[alt[25+i],alt[25+i],alt[25+i+1],alt[25+i+1]]
-      cc=neutralwind[k,fixlt,i]
-      cl=(cc+40)/80*254
+      cc=-neutralwind[k,fixlt,i]
+      cl=(cc+40)/80*255
       if (cl le 0) THEN cl=0
       if (cl ge 255) THEN cl=255
       POLYFILL,xx,yy,COLOR=cl,/data
     ENDFOR  ;i
   ENDFOR ;k
 
-  post_ct=[.99,0.86,1.05,1]
   ; plot color table
   nlable=5; number of lables
 
@@ -178,7 +162,7 @@ for fixlt=0,23 do begin
   for n=0,nlable-1 do begin
     xyouts,xx(n),post_ct[1]+yy(n),tickn(n),/normal,color=0,font=0,charsize=0.9
   endfor
-  ;xyouts,1.06,0.85,'Ne (m!U-3)',/normal,font=0,ORIENTATION=90,charsize=1.1
+  xyouts,0.5,1,'Neutral Wind m/s',/normal,font=0,charsize=1.1
   closedevice
 
   ;;;;;;;;plot grav;;;;;;;;;
@@ -186,15 +170,9 @@ for fixlt=0,23 do begin
 
   device,decomposed=0
 
-  dummy = LABEL_DATE(DATE_FORMAT=['%H:%I'])
-
-  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
-
   plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
-    xticklen=-0.03,yticklen=-0.01,xticks=5
-
-  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
+    xticklen=-0.03,yticklen=-0.01,xticks=11
 
   FOR k=0, nfiles-1 DO BEGIN;  UT
     x1=time[k]
@@ -205,22 +183,21 @@ for fixlt=0,23 do begin
 
     FOR i=0, 27  DO BEGIN         ; altitude
       yy=[alt[25+i],alt[25+i],alt[25+i+1],alt[25+i+1]]
-      cc=grav[k,fixlt,i]
-      cl=(cc+400)/400*254
+      cc=-grav[k,fixlt,i]
+      cl=(cc+600)/1200*255
       if (cl le 0) THEN cl=0
       if (cl ge 255) THEN cl=255
       POLYFILL,xx,yy,COLOR=cl,/data
     ENDFOR  ;i
   ENDFOR ;k
-
-  post_ct=[.99,0.86,1.05,1]
+ 
   ; plot color table
   nlable=5; number of lables
 
   ;tickn=['-30','-15','0','15','30']
   ;tickn=['-5x10!U10','-2.5x10!U10','0','2.5x10!U10','5x10!U10']
   ;tickn=['-50','-25','0','25','50']
-  tickn=['-400','-300','-200','-100','0']
+  tickn=['-600','-300','0','300','600']
   num_level=256
   nvl=num_level
   ;!p.position=0.
@@ -235,7 +212,7 @@ for fixlt=0,23 do begin
   for n=0,nlable-1 do begin
     xyouts,xx(n),post_ct[1]+yy(n),tickn(n),/normal,color=0,font=0,charsize=0.9
   endfor
-  ;xyouts,1.06,0.85,'Ne (m!U-3)',/normal,font=0,ORIENTATION=90,charsize=1.1
+  xyouts,0.5,1,'Gravity Term m/s',/normal,font=0,charsize=1.1
   closedevice
 
   ;;;;;;plot grad;;;;;;
@@ -243,15 +220,9 @@ for fixlt=0,23 do begin
 
   device,decomposed=0
 
-  dummy = LABEL_DATE(DATE_FORMAT=['%H:%I'])
-
-  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
-
   plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
-    xticklen=-0.03,yticklen=-0.01,xticks=5
-
-  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
+    xticklen=-0.03,yticklen=-0.01,xticks=11
 
   FOR k=0, nfiles-1 DO BEGIN;  UT
     x1=time[k]
@@ -263,18 +234,17 @@ for fixlt=0,23 do begin
     FOR i=0, 27  DO BEGIN         ; altitude
       yy=[alt[25+i],alt[25+i],alt[25+i+1],alt[25+i+1]]
       cc=gradient[k,fixlt,i]/1e-5
-      cl=(cc+10)/20*254
+      cl=(cc+20)/40*255
       if (cl le 0) THEN cl=0
       if (cl ge 255) THEN cl=255
       POLYFILL,xx,yy,COLOR=cl,/data
     ENDFOR  ;i
   ENDFOR ;k
 
-  post_ct=[.99,0.86,1.05,1]
   ; plot color table
   nlable=5; number of lables
 
-  tickn=['-10','-5','0','5','10']
+  tickn=['-2x10!U-4','-1x10!U-4','0','1x10!U-4','2x10!U-4']
   num_level=256
   nvl=num_level
   ;!p.position=0.
@@ -289,7 +259,7 @@ for fixlt=0,23 do begin
   for n=0,nlable-1 do begin
     xyouts,xx(n),post_ct[1]+yy(n),tickn(n),/normal,color=0,font=0,charsize=0.9
   endfor
-  ;xyouts,1.06,0.85,'Ne (m!U-3)',/normal,font=0,ORIENTATION=90,charsize=1.1
+  xyouts,0.5,1,'KF m!U-1',/normal,font=0,charsize=1.1
   closedevice
 
   ;;;;;;;;plot recom;;;;;;;;;
@@ -297,15 +267,9 @@ for fixlt=0,23 do begin
 
   device,decomposed=0
 
-  dummy = LABEL_DATE(DATE_FORMAT=['%H:%I'])
-
-  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
-
   plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
-    xticklen=-0.03,yticklen=-0.01,xticks=5
-
-  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
+    xticklen=-0.03,yticklen=-0.01,xticks=11
 
   FOR k=0, nfiles-1 DO BEGIN;  UT
     x1=time[k]
@@ -316,22 +280,21 @@ for fixlt=0,23 do begin
 
     FOR i=0, 27  DO BEGIN         ; altitude
       yy=[alt[25+i],alt[25+i],alt[25+i+1],alt[25+i+1]]
-      cc=recom[k,fixlt,i]/1e-5
-      cl=(cc+400)/800*254
+      cc=-recom[k,fixlt,i]/1e-5
+      cl=(cc+600)/1200*255
       if (cl le 0) THEN cl=0
       if (cl ge 255) THEN cl=255
       POLYFILL,xx,yy,COLOR=cl,/data
     ENDFOR  ;i
   ENDFOR ;k
 
-  post_ct=[.99,0.86,1.05,1]
   ; plot color table
   nlable=5; number of lables
 
   ;tickn=['-30','-15','0','15','30']
   ;tickn=['-5x10!U10','-2.5x10!U10','0','2.5x10!U10','5x10!U10']
   ;tickn=['-50','-25','0','25','50']
-  tickn=['-400','-200','0','200','400']
+  tickn=['-6x10!U-3','-3x10!U-3','0','3x10!U-3','6x10!U-3']
   num_level=256
   nvl=num_level
   ;!p.position=0.
@@ -346,7 +309,7 @@ for fixlt=0,23 do begin
   for n=0,nlable-1 do begin
     xyouts,xx(n),post_ct[1]+yy(n),tickn(n),/normal,color=0,font=0,charsize=0.9
   endfor
-  ;xyouts,1.06,0.85,'Ne (m!U-3)',/normal,font=0,ORIENTATION=90,charsize=1.1
+  xyouts,0.5,1,'Recombination s!U-1',/normal,font=0,charsize=1.1
   closedevice
 endfor
 end

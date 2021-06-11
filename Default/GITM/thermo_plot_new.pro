@@ -546,13 +546,14 @@ if ghostcells eq 0 then begin
                cos((polelon+utrot)*!pi/180.0 - !pi/2.0)
          npy = polerange * $
                sin((polelon+utrot)*!pi/180.0 - !pi/2.0)
-         oplot, [npx],[npy], psym = 4, symsize = 3, thick = 10
+         oplot, [npx],[npy], psym = 4, symsize = 2, thick = 10
       endif
       
       if (n_elements(satlat) gt 0) then begin
          s=size(satlat)
          if s(0) eq 1 then begin
-          polerange = 90.0-satlat
+          
+          if (npolar) then polerange = 90.0-satlat else polerange=90+satlat
           polelon = satlon
           npx = polerange * $
                cos((polelon+satut*15.0)*!pi/180.0 - !pi/2.0)
@@ -564,12 +565,9 @@ if ghostcells eq 0 then begin
           xyouts, [npx(n/2)+4],[npy(n/2)], 's', font=32
         endif else begin
           for snum=0,s[2]-1 do begin
-            polerange = 90.0-satlat[*,snum]
+            if (npolar) then polerange = 90.0-satlat[*,snum] else polerange=90.0+satlat[*,snum]
             for pp=0,s[1]-1 do begin
-              if (polerange[pp] gt 90-minlat) and (npolar eq 1) then polerange[pp]=!VALUES.F_NAN
-              if (polerange[pp] gt 90-minlat) and (npolar eq 1) then polerange[pp]=!VALUES.F_NAN
-              if (polerange[pp] lt 90+minlat) and (npolar eq 0) then polerange[pp]=!VALUES.F_NAN
-              if (polerange[pp] lt 90+minlat) and (npolar eq 0) then polerange[pp]=!VALUES.F_NAN
+              if (polerange[pp] gt 90-minlat) then polerange[pp]=!VALUES.F_NAN
             endfor
             polelon = satlon[*,snum]
             npx = polerange * $
