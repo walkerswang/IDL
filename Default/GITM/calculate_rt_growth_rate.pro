@@ -82,7 +82,7 @@ for apex=25, 52 do begin ;from 216 km
   sigp_se=0
   sigp_stot=0
   ns=0
-  b0=31100e-9
+  b0=bmag[ilon,ilat,ialt];31100e-9
   n0f=0
   n0e=0
   ulp=0
@@ -136,8 +136,8 @@ for apex=25, 52 do begin ;from 216 km
     magloc=geo2mag([lat[alat[i]],lon[alon[i]]])
     magloc_p=geo2mag([lat[alat[i-1]],lon[alon[i-1]]])
 
-    phi=magloc[0]/180.0*!pi/2
-    phi_p=magloc_p[0]/180.0*!pi/2
+    phi=magloc[0]/180.0*!pi
+    phi_p=magloc_p[0]/180.0*!pi
     
     ;calculate flux tube volume
     ll=lat[alat[i]] ;current geo latitude
@@ -195,8 +195,8 @@ for apex=25, 52 do begin ;from 216 km
     magloc=geo2mag([lat[alat[i]],lon[alon[i]]])
     magloc_p=geo2mag([lat[alat[i-1]],lon[alon[i-1]]])
 
-    phi=magloc[0]/180.0*!pi/2
-    phi_p=magloc_p[0]/180.0*!pi/2
+    phi=magloc[0]/180.0*!pi
+    phi_p=magloc_p[0]/180.0*!pi
   
     ;calculate tube integrated conductance
     sigma=calculate_conductivity(den_e,den_N2,den_O2,den_O,Ti,Te,Tn,Rion,B)
@@ -238,8 +238,8 @@ for apex=25, 52 do begin ;from 216 km
     magloc=geo2mag([lat[alat[i]],lon[alon[i]]])
     magloc_p=geo2mag([lat[alat[i-1]],lon[alon[i-1]]])
 
-    phi=magloc[0]/180.0*!pi/2
-    phi_p=magloc_p[0]/180.0*!pi/2
+    phi=magloc[0]/180.0*!pi
+    phi_p=magloc_p[0]/180.0*!pi
 
     ;calculate tube integrated conductance
     sigma=calculate_conductivity(den_e,den_N2,den_O2,den_O,Ti,Te,Tn,Rion,B)
@@ -291,8 +291,8 @@ for apex=25, 52 do begin ;from 216 km
     magloc=geo2mag([lat[alat[i]],lon[alon[i]]])
     magloc_p=geo2mag([lat[alat[i-1]],lon[alon[i-1]]])
 
-    phi=magloc[0]/180.0*!pi/2
-    phi_p=magloc_p[0]/180.0*!pi/2
+    phi=magloc[0]/180.0*!pi
+    phi_p=magloc_p[0]/180.0*!pi
   
     ;calculate tube integrated conductance
     sigma=calculate_conductivity(den_e,den_N2,den_O2,den_O,Ti,Te,Tn,Rion,B)
@@ -355,8 +355,8 @@ for apex=25, 52 do begin ;from 216 km
     magloc=geo2mag([lat[alat[i]],lon[alon[i]]])
     magloc_p=geo2mag([lat[alat[i-1]],lon[alon[i-1]]])
 
-    phi=magloc[0]/180.0*!pi/2
-    phi_p=magloc_p[0]/180.0*!pi/2
+    phi=magloc[0]/180.0*!pi
+    phi_p=magloc_p[0]/180.0*!pi
   
     ;calculate n0f
     n0fl=n0fl+re*l*den_e*(1-sin(phi)^2)^3*abs(phi_p-phi)*cos(phi)
