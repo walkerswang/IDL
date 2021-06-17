@@ -40,8 +40,8 @@ for fixlt=0,23 do begin
       yy=[alt[25+i],alt[25+i],alt[25+i+1],alt[25+i+1]]
       cc=gam[k,fixlt,i]/1e-5
       cl=(cc+600)/1200*255
-      if (cl le 0) THEN cl=0
-      if (cl ge 255) THEN cl=255
+      if (cl le 0) THEN cl=1
+      if (cl ge 255) THEN cl=254
       POLYFILL,xx,yy,COLOR=cl,/data
     ENDFOR  ;i
   ENDFOR ;k
@@ -91,8 +91,8 @@ for fixlt=0,23 do begin
       yy=[alt[25+i],alt[25+i],alt[25+i+1],alt[25+i+1]]
       cc=ebdrift[k,fixlt,i]
       cl=(cc+100)/200*255
-      if (cl le 0) THEN cl=0
-      if (cl ge 255) THEN cl=255
+      if (cl le 0) THEN cl=1
+      if (cl ge 255) THEN cl=254
       POLYFILL,xx,yy,COLOR=cl,/data
     ENDFOR  ;i
   ENDFOR ;k
@@ -139,8 +139,8 @@ for fixlt=0,23 do begin
       yy=[alt[25+i],alt[25+i],alt[25+i+1],alt[25+i+1]]
       cc=-neutralwind[k,fixlt,i]
       cl=(cc+40)/80*255
-      if (cl le 0) THEN cl=0
-      if (cl ge 255) THEN cl=255
+      if (cl le 0) THEN cl=1
+      if (cl ge 255) THEN cl=254
       POLYFILL,xx,yy,COLOR=cl,/data
     ENDFOR  ;i
   ENDFOR ;k
@@ -187,8 +187,8 @@ for fixlt=0,23 do begin
       yy=[alt[25+i],alt[25+i],alt[25+i+1],alt[25+i+1]]
       cc=-grav[k,fixlt,i]
       cl=(cc+600)/1200*255
-      if (cl le 0) THEN cl=0
-      if (cl ge 255) THEN cl=255
+      if (cl le 0) THEN cl=1
+      if (cl ge 255) THEN cl=254
       POLYFILL,xx,yy,COLOR=cl,/data
     ENDFOR  ;i
   ENDFOR ;k
@@ -237,8 +237,8 @@ for fixlt=0,23 do begin
       yy=[alt[25+i],alt[25+i],alt[25+i+1],alt[25+i+1]]
       cc=gradient[k,fixlt,i]/1e-5
       cl=(cc+20)/40*255
-      if (cl le 0) THEN cl=0
-      if (cl ge 255) THEN cl=255
+      if (cl le 0) THEN cl=1
+      if (cl ge 255) THEN cl=254
       POLYFILL,xx,yy,COLOR=cl,/data
     ENDFOR  ;i
   ENDFOR ;k
@@ -284,8 +284,8 @@ for fixlt=0,23 do begin
       yy=[alt[25+i],alt[25+i],alt[25+i+1],alt[25+i+1]]
       cc=-recom[k,fixlt,i]/1e-5
       cl=(cc+600)/1200*255
-      if (cl le 0) THEN cl=0
-      if (cl ge 255) THEN cl=255
+      if (cl le 0) THEN cl=1
+      if (cl ge 255) THEN cl=254
       POLYFILL,xx,yy,COLOR=cl,/data
     ENDFOR  ;i
   ENDFOR ;k
