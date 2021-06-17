@@ -1,8 +1,10 @@
-wc=ask('Root folder:',wc)
-root=ask('Figure root:',root)
+wc=ask('root folder:',wc)
+root=ask('figure root:',root)
+all=ask('all file names:',all)
+ion=ask('ion file names:',ion)
 
-allFILELIST = FINDFILE(wc+'3DALL*.bin')
-ionFILELIST = FINDFILE(wc+'3DION*.bin')
+allFILELIST = FINDFILE(wc+all)
+ionFILELIST = FINDFILE(wc+ion)
 nfiles = n_elements(allfilelist)
 
 ;28 means altitude grids from 216 km to 615 km

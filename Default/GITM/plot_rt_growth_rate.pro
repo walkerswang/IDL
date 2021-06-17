@@ -8,7 +8,9 @@ sday=ask('start day:')
 shour=ask('start hour:')
 eday=ask('end day:')
 ehour=ask('end hour:')
-
+step_size=ask('step size (min):')
+xn=ask('xtick number:')
+ratio=step_size/5
 nfiles=n_elements(EBDRIFT[*,0,0])
 
 makect,'bwr'
@@ -21,13 +23,13 @@ for fixlt=0,23 do begin
 
   dummy = LABEL_DATE(DATE_FORMAT=['%H:%I'])
 
-  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=5)
+  time = TIMEGEN(START=JULDAY(month,sday,year,shour,0,0), FINAL=JULDAY(month,eday,year,ehour,0,0),UNITS='Minutes', STEP_SIZE=step_size)
 
-  plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
+  plot,time,alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$ 
-    xticklen=-0.03,yticklen=-0.01,xticks=11
+    xticklen=-0.03,yticklen=-0.01,xticks=xn
 
-  FOR k=0, nfiles-1 DO BEGIN;  UT
+  FOR k=0, nfiles-2 DO BEGIN;  UT
     x1=time[k]
     x2=time[k+1]
     x3=time[k+1]
@@ -74,11 +76,11 @@ for fixlt=0,23 do begin
 
   device,decomposed=0
 
-  plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
+  plot,time,alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
-    xticklen=-0.03,yticklen=-0.01,xticks=11
+    xticklen=-0.03,yticklen=-0.01,xticks=xn
 
-  FOR k=0, nfiles-1 DO BEGIN;  UT
+  FOR k=0, nfiles-2 DO BEGIN;  UT
     x1=time[k]
     x2=time[k+1]
     x3=time[k+1]
@@ -122,11 +124,11 @@ for fixlt=0,23 do begin
 
   device,decomposed=0
 
-  plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
+  plot,time,alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
-    xticklen=-0.03,yticklen=-0.01,xticks=11
+    xticklen=-0.03,yticklen=-0.01,xticks=xn
 
-  FOR k=0, nfiles-1 DO BEGIN;  UT
+  FOR k=0, nfiles-2 DO BEGIN;  UT
     x1=time[k]
     x2=time[k+1]
     x3=time[k+1]
@@ -170,11 +172,11 @@ for fixlt=0,23 do begin
 
   device,decomposed=0
 
-  plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
+  plot,time,alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
-    xticklen=-0.03,yticklen=-0.01,xticks=11
+    xticklen=-0.03,yticklen=-0.01,xticks=xn
 
-  FOR k=0, nfiles-1 DO BEGIN;  UT
+  FOR k=0, nfiles-2 DO BEGIN;  UT
     x1=time[k]
     x2=time[k+1]
     x3=time[k+1]
@@ -220,11 +222,11 @@ for fixlt=0,23 do begin
 
   device,decomposed=0
 
-  plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
+  plot,time,alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
-    xticklen=-0.03,yticklen=-0.01,xticks=11
+    xticklen=-0.03,yticklen=-0.01,xticks=xn
 
-  FOR k=0, nfiles-1 DO BEGIN;  UT
+  FOR k=0, nfiles-2 DO BEGIN;  UT
     x1=time[k]
     x2=time[k+1]
     x3=time[k+1]
@@ -267,11 +269,11 @@ for fixlt=0,23 do begin
 
   device,decomposed=0
 
-  plot,time[0:nfiles],alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
+  plot,time,alt[25:52],/nodata,xstyle=1,ystyle=1,xcharsize=1.5,xtickformat='LABEL_DATE',$
     xminor=6,yminor=2,font=0,YTITLE='Altitude (m)',$
-    xticklen=-0.03,yticklen=-0.01,xticks=11
+    xticklen=-0.03,yticklen=-0.01,xticks=xn
 
-  FOR k=0, nfiles-1 DO BEGIN;  UT
+  FOR k=0, nfiles-2 DO BEGIN;  UT
     x1=time[k]
     x2=time[k+1]
     x3=time[k+1]
