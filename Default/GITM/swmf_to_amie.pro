@@ -5,7 +5,7 @@ output=ask('Output folder: ', output)
 
 for iFile=0,nFilesIono-1 do begin
 
-   IonoFile =IonosphereFiles(iFile)
+   IonoFile =root+IonosphereFiles(iFile)
    print, 'Reading file....       ',IonoFile
 
    iono_read_file, IonoFile, nVarsIono, nLatsIono, nLonsIono, $
