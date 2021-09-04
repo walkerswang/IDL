@@ -14,17 +14,17 @@ pro trace_field_line,apexlon,apexlat,apexalt,data,l,npoint,alon,alat,aalt
   ;endelse
 
   npoint=0
-  alat=fltarr(184,1)
-  alon=fltarr(184,1)
-  aalt=fltarr(184,1)
+  alat=fltarr(41,1)
+  alon=fltarr(41,1)
+  aalt=fltarr(41,1)
 
-  for jj=apexlat-15,apexlat+15 do begin
+  for jj=apexlat-20,apexlat+20 do begin
     altto=0
     lonto=0
     nnn=0
     for ii=apexlon-2,apexlon+2 do begin
       for kk=0,apexalt do begin
-        if ((abs(mlat(ii,jj,kk)-latp) lt 1) || (abs(mlat(ii,jj,kk)+latp) lt 1)) && (abs(mlon(ii,jj,kk)-lonp) lt 1) then begin
+        if (abs(abs(mlat(ii,jj,kk))-latp) lt 1) && (abs(mlon(ii,jj,kk)-lonp) lt 2) then begin
           altto=altto+alt(kk)
           lonto=lonto+lon(ii)
           nnn=nnn+1

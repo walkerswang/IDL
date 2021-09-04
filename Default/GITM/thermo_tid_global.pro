@@ -88,15 +88,22 @@ for i=0, nfiles-1 do begin
   sel=-1
   yes = 0
   no  = 1  
-  polar=0
+  polar=1
+  npolar=1
   yes_writecnt=1
   showgridyes = 0
   plotvectoryes=0
+  yeslog=0
   mini=smini_final
   maxi=smaxi_final
   psfile=fig_folder+figname
+  minlat=50
   tp=strpos(filename,'_t')
   psfile = psfile+'_'+strmid(filename,tp+2,13)+'.ps'
+  YESWRITE_CNT=1
+  GHOSTCELLS=0
+  nvars=4
+  vars=vars[iVar]
   thermo_plot_new,cursor_x,cursor_y,strx,stry,step,nvars,sel,nfiles,$
     cnt1,cnt2,cnt3,yes,no,yeslog,      $
     1-yeslog,nalts,nlats,nlons,yeswrite_cnt,$

@@ -17,13 +17,13 @@ grav=fltarr(nfiles,24,28) ;g/mu
 gradient=fltarr(nfiles,24,28) 
 recom=fltarr(nfiles,24,28); recombination rate
 
-for ifile=0,nfiles-1 do begin
+for ifile=0, nfiles-1 do begin
 
 filenameion = ionfilelist(ifile)
 filenameall = allfilelist(ifile)
 ;read 3dall (ne)
 read_thermosphere_file, filenameion, nvars, nalts, nlats, nlons,vars,data, $
-  nBLKlat, nBLKlon, nBLK, iTime, Version
+  nBLKlat, nBLKlon, nBLK, iTime  , Version
 
 read_thermosphere_file, filenameall, nvars, nalts, nlats, nlons,vars,dataall, $
     nBLKlat, nBLKlon, nBLK, iTime, Version
@@ -90,22 +90,17 @@ for apex=25, 52 do begin ;from 216 km
   ulp=0
   rt=0
 
-  fregion=min(abs(alt[aalt]-2e5),fp1); find boundary of e and f region (200km)
-  fp2=npoint-fp1
+  peak=max(alt[aalt], indexp)
+  fregion=min(abs(alt[aalt[0:indexp]]-2e5),fp1); find boundary of e and f region (200km)
+  fregion=min(abs(alt[aalt[indexp+1:npoint-1]]-2e5),fp2); find boundary of e and f region (200km)
+  fp2=fp2+indexp+1
   
   if fp1 gt fp2 then begin
     tmp=fp1
     fp1=fp2
     fp2=tmp
   endif
-  
-  ;if alt[aalt[fp]] lt 200 then begin
-  ;  fp=fp-1
-  ;endif
 
-  ;if fp lt 0 then begin
-  ;  fp=0
-  ;endif
 
   ;calculate parameters in f region
   for i=fp1,fp2 do begin
